@@ -1,0 +1,24 @@
+{
+  "name": "revertit",
+  "version": "0.0.1",
+  "description": "A reversible promise chain.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --recursive test/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/salleaffaire/Revert.git"
+  },
+  "author": "Luc Martel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/salleaffaire/Revert/issues"
+  },
+  "homepage": "https://github.com/salleaffaire/Revert#readme",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4",
+    "standard": "^12.0.1"
+  }
+}
