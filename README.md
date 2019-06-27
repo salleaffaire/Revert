@@ -1,6 +1,8 @@
-# Revert
+# Revertit
 
 A reversible promise chain
+
+This is an alpha release
 
 ## Install
 
