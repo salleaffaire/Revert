@@ -17,13 +17,14 @@ let states = {
   error: 1
 }
 
-function Step (upPromise, downPromise, name) {
+function Step (upPromise, downPromise, name, parameters = { up: {}, down: {} }) {
   // Transitions
   this.upPromise = upPromise
   this.downPromise = downPromise
   this.name = name
+  this.parameters = parameters
 
-  // Were the functions called
+  // Were the functions called ?
   this.upped = false
 
   // State
@@ -55,20 +56,24 @@ Chain.prototype.up = async function () {
 
   let mustExit = false
   while ((this.currentStepIndex < numSteps) && (!mustExit)) {
-    console.log(this.currentStepIndex)
+    // console.log(this.currentStepIndex)
     const currentStep = this.steps[this.currentStepIndex]
-    const result = await currentStep.upPromise()
     const name = currentStep.name
+
+    // Await on the current step promise
+    const result = await currentStep.upPromise(currentStep.parameters.up)
+
+    // Keep its execution result on the stack
+    this.push(this.currentStepIndex, 'up', result)
+
     if (result) {
       // Promise was resolved, we continue
-      this.push(this.currentStepIndex, 'up', true)
       this.currentStepIndex++
     } else {
       // Promise was rejected, we need to unwind
       mustExit = true
-      this.push(this.currentStepIndex, 'up', false)
       if (name) {
-        console.log(`Step ${name} failed`)
+        // console.log(`Step ${name} failed`)
       }
     }
   }
@@ -80,7 +85,7 @@ Chain.prototype.up = async function () {
 Chain.prototype.down = async function () {
   while (this.currentStepIndex >= 0) {
     const currentStep = this.steps[this.currentStepIndex]
-    await currentStep.downPromise()
+    await currentStep.downPromise(currentStep.parameters.down)
     this.push(this.currentStepIndex, 'down', true)
     this.currentStepIndex--
   }
