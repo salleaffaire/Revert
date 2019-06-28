@@ -17,6 +17,15 @@ let states = {
   error: 1
 }
 
+/**
+ * Function constructor that instanciates one Step.
+ *
+ * @param {Function}   upPromise           Function returning a Promise run dutring the up stage.
+ * @param {Function}   downPromise         Function returning a Promise run dutring the down stage.
+ * @param {String}     name                Name of the Step (used in the stack).
+ * @param {Object}     parameters          List of parameters passed to the up and down functions
+ *
+ */
 function Step (upPromise, downPromise, name, parameters = { up: {}, down: {} }) {
   // Transitions
   this.upPromise = upPromise
@@ -32,6 +41,9 @@ function Step (upPromise, downPromise, name, parameters = { up: {}, down: {} }) 
   this.continue = true
 }
 
+/**
+ * Function constructor a step chain.
+ */
 function Chain () {
   // Steps array
   this.stack = []
