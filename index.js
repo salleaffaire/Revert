@@ -70,7 +70,6 @@ Chain.prototype.up = async function () {
   while ((this.currentStepIndex < numSteps) && (!mustExit)) {
     // console.log(this.currentStepIndex)
     const currentStep = this.steps[this.currentStepIndex]
-    const name = currentStep.name
 
     // Await on the current step promise
     const result = await currentStep.upPromise(currentStep.parameters.up)
@@ -78,15 +77,17 @@ Chain.prototype.up = async function () {
     // Keep its execution result on the stack
     this.push(this.currentStepIndex, 'up', result)
 
-    if (result) {
-      // Promise was resolved, we continue
-      this.currentStepIndex++
-    } else {
-      // Promise was rejected, we need to unwind
-      mustExit = true
-      if (name) {
-        // console.log(`Step ${name} failed`)
+    if (typeof result === 'boolean') {
+      if (result) {
+        // Promise was resolved to true
+        this.currentStepIndex++
+      } else {
+        // Promise was resolved to false
+        mustExit = true
       }
+    } else {
+      // Promise was resolved to an object
+      mustExit = true
     }
   }
   return {

@@ -53,6 +53,11 @@ describe('Run a 2-Step chain', function () {
     expected: [
       { stepIndex: 0, type: 'up', result: false },
       { stepIndex: 0, type: 'down', result: true }]
+  }, {
+    upResults: [{ message: 'Failled' }, false],
+    expected: [
+      { stepIndex: 0, type: 'up', result: { message: 'Failled' } },
+      { stepIndex: 0, type: 'down', result: true }]
   }]
 
   for (let itr of iterations) {
