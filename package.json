@@ -1,6 +1,6 @@
 {
   "name": "revertit",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A reversible promise chain.",
   "main": "index.js",
   "scripts": {
