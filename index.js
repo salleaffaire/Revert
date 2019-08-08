@@ -98,8 +98,8 @@ Chain.prototype.up = async function () {
 Chain.prototype.down = async function () {
   while (this.currentStepIndex >= 0) {
     const currentStep = this.steps[this.currentStepIndex]
-    await currentStep.downPromise(currentStep.parameters.down)
-    this.push(this.currentStepIndex, 'down', true)
+    const result = await currentStep.downPromise(currentStep.parameters.down)
+    this.push(this.currentStepIndex, 'down', result)
     this.currentStepIndex--
   }
 }
